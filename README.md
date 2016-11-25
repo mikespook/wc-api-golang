@@ -7,7 +7,7 @@ A Golang wrapper for the WooCommerce REST API. Easily interact with the WooComme
 ## Installation
 
 ```bash
-$ go get github.com/mikespook/wc-api-golang
+$ go get github.com/mikespook/wc-api-golang/woocommerce
 ```
 
 ## Getting started
@@ -23,7 +23,7 @@ Setup for the new WP REST API integration (WooCommerce 2.6 or later):
 
 ```golang
 import (
-  "github.com/mikespook/wc-api-golang"  
+  wc "github.com/mikespook/wc-api-golang/woocommerce"
 )
 
 var woocommerce = wc.NewClient(
