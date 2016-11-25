@@ -31,8 +31,8 @@ var woocommerce = wc.NewClient(
     "ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", 
     "cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     wc.Options {
-        "wp_api": true,
-        "version": "wc/v1",
+        WP_API: true,
+        Version: "wc/v1",
     }
 );
 ```
@@ -48,15 +48,15 @@ var woocommerce = wc.NewClient(
 
 #### Client options
 
-|        Option       |   Type   | Required |                                                      Description                                                       |
-|---------------------|----------|----------|------------------------------------------------------------------------------------------------------------------------|
-| `wp_api`            | `bool`   | no       | Allow make requests to the new WP REST API integration (WooCommerce 2.6 or later)                                      |
-| `wp_api_prefix`     | `string` | no       | Custom WP REST API URL prefix, used to support custom prefixes created with the `rest_url_prefix` filter               |
-| `version`           | `string` | no       | API version, default is `v3`                                                                                           |
-| `timeout`           | `int`    | no       | Request timeout, default is `15`                                                                                       |
-| `verify_ssl`        | `bool`   | no       | Verify SSL when connect, use this option as `false` when need to test with self-signed certificates, default is `true` |
-| `query_string_auth` | `bool`   | no       | Force Basic Authentication as query string when `true` and using under HTTPS, default is `false`                       |
-| `oauth_timestamp`   | `string` | no       | Custom oAuth timestamp, default is `time()`                                                                            |
+|        Option       |   Type   |                                                      Description                                                       |
+|---------------------|----------|------------------------------------------------------------------------------------------------------------------------|
+| `wp_api`            | `bool`   | Allow make requests to the new WP REST API integration (WooCommerce 2.6 or later)                                      |
+| `wp_api_prefix`     | `string` | Custom WP REST API URL prefix, used to support custom prefixes created with the `rest_url_prefix` filter               |
+| `version`           | `string` | API version, default is `v3`                                                                                           |
+| `timeout`           | `int`    | Request timeout, default is `15`                                                                                       |
+| `verify_ssl`        | `bool`   | Verify SSL when connect, use this option as `false` when need to test with self-signed certificates, default is `true` |
+| `query_string_auth` | `bool`   | Force Basic Authentication as query string when `true` and using under HTTPS, default is `false`                       |
+| `oauth_timestamp`   | `string` | Custom oAuth timestamp, default is `time()`                                                                            |
 
 ## Methods
 
