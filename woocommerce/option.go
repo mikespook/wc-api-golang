@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type Option struct {
+type Options struct {
 	API             bool
 	APIPrefix       string
 	Version         string

@@ -30,33 +30,33 @@ var woocommerce = wc.NewClient(
     "http://example.com", 
     "ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", 
     "cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    wc.Options {
-        WP_API: true,
+    &wc.Options {
+        API: true,
         Version: "wc/v1",
-    }
+    },
 );
 ```
 
-### Options
+### Paramaters
 
 |       Option      |   Type   |                Description                 |
 | ----------------- | -------- | ------------------------------------------ |
-| `url`             | `string` | Your Store URL, example: http://woo.dev/   |
-| `consumer_key`    | `string` | Your API consumer key                      |
-| `consumer_secret` | `string` | Your API consumer secret                   |
-| `options`         | `wc.Options`  | Extra arguments (see client options table) |
+| `store`           | `string` | Your Store URL, example: http://woo.dev/   |
+| `ck`              | `string` | Your API consumer key                      |
+| `cs`              | `string` | Your API consumer secret                   |
+| `options`         | `*wc.Options`  | Extra arguments (see client options table) |
 
 #### Client options
 
 |        Option       |   Type   |                                                      Description                                                       |
 |---------------------|----------|------------------------------------------------------------------------------------------------------------------------|
-| `wp_api`            | `bool`   | Allow make requests to the new WP REST API integration (WooCommerce 2.6 or later)                                      |
-| `wp_api_prefix`     | `string` | Custom WP REST API URL prefix, used to support custom prefixes created with the `rest_url_prefix` filter               |
-| `version`           | `string` | API version, default is `v3`                                                                                           |
-| `timeout`           | `int`    | Request timeout, default is `15`                                                                                       |
-| `verify_ssl`        | `bool`   | Verify SSL when connect, use this option as `false` when need to test with self-signed certificates, default is `true` |
-| `query_string_auth` | `bool`   | Force Basic Authentication as query string when `true` and using under HTTPS, default is `false`                       |
-| `oauth_timestamp`   | `string` | Custom oAuth timestamp, default is `time()`                                                                            |
+| `API`            | `bool`   | Allow make requests to the new WP REST API integration (WooCommerce 2.6 or later)                                      |
+| `APIPrefix`     | `string` | Custom WP REST API URL prefix, used to support custom prefixes created with the `rest_url_prefix` filter               |
+| `Version`           | `string` | API version, default is `v3`                                                                                           |
+| `Timeout`           | `time.Duration`    | Request timeout, default is `15`                                                                                       |
+| `VerifySSL`        | `bool`   | Verify SSL when connect, use this option as `false` when need to test with self-signed certificates, default is `true` |
+| `QueryStringAuth` | `bool`   | Force Basic Authentication as query string when `true` and using under HTTPS, default is `false`                       |
+| `OauthTimestamp`   | `time.Time` | Custom oAuth timestamp, default is `time.Now()`                                                                            |
 
 ## Methods
 
@@ -69,36 +69,35 @@ var woocommerce = wc.NewClient(
 ### GET
 
 ```golang
-woocommerce.Get(endpoint, parameters)
+rc, err := woocommerce.Get(endpoint, parameters)
 ```
 
 ### POST
 
 ```golang
-woocommerce.Post(endpoint, data)
+rc, err := woocommerce.Post(endpoint, data)
 ```
 
 ### PUT
 
 ```golang
-woocommerce.Put(endpoint, data)
+rc, err := woocommerce.Put(endpoint, data)
 ```
 
 ### DELETE
 
 ```golang
-woocommerce.Delete(endpoint, parameters)
+rc, err := woocommerce.Delete(endpoint, parameters)
 ```
 
 ### OPTIONS
 
 ```golang
-woocommerce.Options(endpoint)
+rc, err := woocommerce.Options(endpoint)
 ```
 
 #### Response
 
-All methods will return nil on success or an error on failure.
+All methods will return a `io.ReadCloser` and `nil` on success or an `error` on failure.
 
 ## Release History
-
