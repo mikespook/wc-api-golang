@@ -27,18 +27,18 @@ type Client struct {
 	storeURL  *url.URL
 	ck        string
 	cs        string
-	option    *Option
+	option    *Options
 	rawClient *http.Client
 }
 
-func NewClient(store, ck, cs string, option *Option) (*Client, error) {
+func NewClient(store, ck, cs string, option *Options) (*Client, error) {
 	storeURL, err := url.Parse(store)
 	if err != nil {
 		return nil, err
 	}
 
 	if option == nil {
-		option = &Option{}
+		option = &Options{}
 	}
 	if option.OauthTimestamp.IsZero() {
 		option.OauthTimestamp = time.Now()
