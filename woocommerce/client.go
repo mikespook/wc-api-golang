@@ -54,8 +54,6 @@ func NewClient(store, ck, cs string, option *Options) (*Client, error) {
 	path = path + option.Version + "/"
 	storeURL.Path = path
 
-	fmt.Printf("%+v", storeURL.String())
-
 	rawClient := &http.Client{}
 	rawClient.Transport = &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: option.VerifySSL},
