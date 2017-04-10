@@ -1,12 +1,14 @@
 package woocommerce
 
 import (
+	"bytes"
 	"crypto/hmac"
 	"crypto/rand"
 	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/tls"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -110,7 +112,6 @@ func (c *Client) oauthSign(method, endpoint, params string) string {
 
 func (c *Client) request(method, endpoint string, params url.Values, data interface{}) (io.ReadCloser, error) {
 	urlstr := c.storeURL.String() + endpoint
-	var body io.Reader
 	if params == nil {
 		params = make(url.Values)
 	}
@@ -125,10 +126,18 @@ func (c *Client) request(method, endpoint string, params url.Values, data interf
 	default:
 		return nil, fmt.Errorf("Method is not recognised: %s", method)
 	}
-	req, err := http.NewRequest(method, urlstr, body)
+
+	var body bytes.Buffer
+	encoder := json.NewEncoder(&body)
+	if err := encoder.Encode(data); err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(method, urlstr, &body)
 	if err != nil {
 		return nil, err
 	}
+
 	resp, err := c.rawClient.Do(req)
 	if err != nil {
 		return nil, err
