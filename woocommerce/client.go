@@ -44,22 +44,21 @@ func NewClient(store, ck, cs string, option *Options) (*Client, error) {
 		option.OauthTimestamp = time.Now()
 	}
 
-	ver := "v3"
-	if option.Version != "" {
-		ver = option.Version
+	if option.Version == "" {
+		option.Version = "v2"
 	}
-	path := "/wc-api/"
+	path := "/wp-json/wc/"
 	if option.API {
 		path = option.APIPrefix
 	}
-	path = path + ver + "/"
+	path = path + option.Version + "/"
 	storeURL.Path = path
 
+	fmt.Printf("%+v", storeURL.String())
+
 	rawClient := &http.Client{}
-	if !option.VerifySSL {
-		rawClient.Transport = &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		}
+	rawClient.Transport = &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: option.VerifySSL},
 	}
 	return &Client{
 		storeURL:  storeURL,
@@ -117,6 +116,9 @@ func (c *Client) oauthSign(method, endpoint, params string) string {
 func (c *Client) request(method, endpoint string, params url.Values, data interface{}) (io.ReadCloser, error) {
 	urlstr := c.storeURL.String() + endpoint
 	var body io.Reader
+	if params == nil {
+		params = make(url.Values)
+	}
 	if c.storeURL.Scheme == "https" {
 		urlstr += "?" + c.basicAuth(params)
 	} else {
