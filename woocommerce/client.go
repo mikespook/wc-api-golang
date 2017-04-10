@@ -74,9 +74,6 @@ func (c *Client) basicAuth(params url.Values) string {
 }
 
 func (c *Client) oauth(method, urlStr string, params url.Values) string {
-	if params == nil {
-		params = make(url.Values)
-	}
 	params.Add("oauth_consumer_key", c.ck)
 	params.Add("oauth_timestamp", strconv.Itoa(int(c.option.OauthTimestamp.Unix())))
 	nonce := make([]byte, 16)
