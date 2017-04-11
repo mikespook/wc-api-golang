@@ -127,22 +127,25 @@ func (c *Client) request(method, endpoint string, params url.Values, data interf
 		return nil, fmt.Errorf("Method is not recognised: %s", method)
 	}
 
-	var body bytes.Buffer
-	encoder := json.NewEncoder(&body)
+	body := new(bytes.Buffer)
+	encoder := json.NewEncoder(body)
 	if err := encoder.Encode(data); err != nil {
 		return nil, err
 	}
 
-	req, err := http.NewRequest(method, urlstr, &body)
+	req, err := http.NewRequest(method, urlstr, body)
 	if err != nil {
 		return nil, err
 	}
-
+	req.Header.Set("Content-Type", "application/json")
 	resp, err := c.rawClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode == http.StatusBadRequest ||
+		resp.StatusCode == http.StatusUnauthorized ||
+		resp.StatusCode == http.StatusNotFound ||
+		resp.StatusCode == http.StatusInternalServerError {
 		return nil, fmt.Errorf("Request failed: %s", resp.Status)
 	}
 	return resp.Body, nil
